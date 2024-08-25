@@ -1,5 +1,5 @@
 /* eslint react/prop-types: 0 */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { Buffer } from "buffer";
 export function PostCard(post) {
   const [likes, setLikes] = useState({
@@ -43,33 +43,32 @@ export function PostCard(post) {
       comment: comment.comment + 1,
     });
   };
+  const [url, setUrl] = useState("");
+  const [alt, setAlt] = useState("");
 
-  const fetchImageUrl = async (id, num) => {
+  const fetchImageUrl = async (id) => {
     let response = await fetch(`http://localhost:4000/file/${id}`);
     //use string literals
 
     let data = await response.json();
-    const uint8Array = new Uint8Array(data.data);
+    console.log(data);
 
-    // Create a Blob from the Uint8Array
+    const uint8Array = new Uint8Array(data[0].data);
+
     const blob = new Blob([uint8Array], { type: "image/jpeg" });
-
-    // Create a URL for the Blob
     const imageUrl = URL.createObjectURL(blob);
-
-    // Set the src of the img element to the Blob URL
-    const img = document.getElementById("image" + num);
-    img.src = imageUrl;
-    return imageUrl;
+    setUrl(imageUrl);
+    setAlt(data[1]);
   };
-  fetchImageUrl(post.post.post.img, post.post.num);
-
+  useEffect(() => {
+    fetchImageUrl(post.post.post.img);
+  }, [post]);
   return (
     <>
       <div className="card single_post">
         <div className="body">
           <div className="img-post">
-            <img id={"image" + post.post.num} alt="" />
+            <img src={url} alt={alt} />
           </div>
           <h3>
             <a href="blog-details.html">{post.post.post.title}</a>

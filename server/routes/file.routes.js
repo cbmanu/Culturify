@@ -39,7 +39,7 @@ router.get("/file/:id", async (req, res) => {
       "Content-Disposition": `attachment; filename="${file.filename}"`,
     });
 
-    res.status(200).json(file.data);
+    res.status(200).json([file.data, file.filename]);
   } catch (error) {
     res
       .status(500)

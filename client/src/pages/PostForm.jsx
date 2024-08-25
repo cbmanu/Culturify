@@ -80,13 +80,6 @@ export function PostForm() {
           <div className="row d-flex justify-content-center align-items-center  min-vh-100">
             <div className="col-xl-10">
               <div className="card rounded-3 text-black">
-                <input
-                  type="file"
-                  id="img"
-                  name="img"
-                  accept="image/png, image/jpeg"
-                  onChange={handleFile}
-                />
                 <div className="row g-0">
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
@@ -127,6 +120,18 @@ export function PostForm() {
                         placeholder="Descripcion Del Evento"
                         onInput={handleInput}
                       ></textarea>
+                      <div>
+                        <label htmlFor="img" className="m-1">
+                          Upload an Image for you event
+                        </label>
+                      </div>
+                      <input
+                        type="file"
+                        id="img"
+                        name="img"
+                        accept="image/png, image/jpeg"
+                        onChange={handleFile}
+                      />
 
                       <button
                         className="btn btn-primary btn-block mt-5 fa-lg gradient-custom-2 mb-3 d-block"
