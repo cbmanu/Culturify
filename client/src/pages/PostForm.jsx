@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../graphql/post";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
+
 export function PostForm() {
   const navigate = useNavigate();
+  const { token } = useAuth();
   const [post, setPost] = useState({
     title: "",
     body: "",
@@ -29,7 +32,7 @@ export function PostForm() {
     variables: post,
     context: {
       headers: {
-        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        authorization: `Bearer ${token}`,
       },
     },
   });

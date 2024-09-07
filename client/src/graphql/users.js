@@ -16,12 +16,6 @@ export const CREATE_USER = gql`
       interest: $interest
     ) {
       _id
-      username
-      password
-      age
-      email
-      interest
-      createdAt
       token
     }
   }
@@ -30,7 +24,6 @@ export const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       _id
-      email
       token
     }
   }

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../graphql/users";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 export function SignIn() {
   const navigate = useNavigate();
+  const { createUser } = useAuth();
 
   const [user, setUser] = useState({
     name: "",
@@ -41,19 +41,13 @@ export function SignIn() {
   //     });
   //   }
   // };
-  const [createUser, { error }] = useMutation(CREATE_USER, {
-    update(_, result) {
-      sessionStorage.setItem("token", result?.data?.createUser?.token);
-    },
-    onError(error) {
-      throw new Error(error);
-    },
-    variables: user,
-  });
+  const handleSignIn = async () => {
+    await createUser(user);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser();
+    handleSignIn();
     navigate("/");
   };
   const handleTravel = (e) => {
@@ -89,7 +83,6 @@ export function SignIn() {
                       </div>
 
                       <form onSubmit={handleSubmit}>
-                        {error && <p>{error.message}</p>}
                         <p>Por favor Registrate</p>
                         <div data-mdb-input-init className="form-outline mb-4">
                           <input
